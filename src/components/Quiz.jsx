@@ -1,8 +1,8 @@
 import {useCallback, useState} from 'react';
 
 import QUSTIONS from '../qustions.js';
-import quizCompleteImg from '../assets/quiz-complete.png';
 import Qustion from './Qustion.jsx';
+import Summary from './Summary.jsx';
 
 const Quiz = () => {
  
@@ -20,13 +20,10 @@ const Quiz = () => {
     const handleSkipAnswer= useCallback(() => handleSelectAnswer(null), [handleSelectAnswer]);
 
     if (quizIsComplete){
-      return (
-      <div id="summary">
-        <img src={quizCompleteImg} alt="Trophy icon"/>
-        <h2>Quiz Completed!</h2>
-      </div>
-      );
+      return <Summary userAnswers={userAnswers}/>
     }
+
+    //setUserAnswer((prevUserAnser) => [...prevUserAnswer, selectedAnser])
 
    
  

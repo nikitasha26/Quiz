@@ -10,6 +10,16 @@ export default function Qustion({ index, onSelectAnswer, onSkipAnswer}) {
         isCorrect: null
     });
 
+    let timer = 10000;
+
+    if(answer.selectedAnswer) {
+        timer = 1000;
+    }
+
+    if (answer.isCorrect !== null) {
+        timer = 2000;
+    }
+
     function handleSelectAnswer(answer) {
         setAnswer({
             selectedAnswer: answer,
@@ -27,30 +37,30 @@ export default function Qustion({ index, onSelectAnswer, onSkipAnswer}) {
         }, 1000);
     }
 
-let answerState = '';
+let answerState = ''; // answered(before checking), coreect/ wrong (after checking)
 
-// if (answer.selectedAnswer && answer.isCorrect !== null) {
-//     answerState = answer.isCorrect ? 'correct' : 'wrong' ;
-// } else if (answer.selectedAnswer) {
-//     answerState = 'answered' ;
-// }
-
-if(answer.selectedAnswer){
-    answerState = answerState.isCorrect ? "correct" : "wrong"
+if (answer.selectedAnswer && answer.isCorrect !== null) {
+    answerState = answer.isCorrect ? 'correct' : 'wrong' ;
+} else if (answer.selectedAnswer) {
+    answerState = 'answered' ;
 }
+
+
 
     return(
         <div id='question'>
-        <QustionTimer  timeout={10000} onTimeout={onSkipAnswer} />
+        <QustionTimer key={timer} timeout={timer} onTimeout={answer.selectedAnswer === '' ? onSkipAnswer : null}
+         mode={answerState}/>
       <h2>
       {QUSTIONS[index].text}
       </h2>
-      {console.log(answerState)}
+    
       <Answers 
        answers={QUSTIONS[index].answers}
        selectedAnswer={answer.selectedAnswer}
       answerState={answerState} 
-      onSelect={onSelectAnswer} />
+      onSelect={handleSelectAnswer} />
      </div>
     );
 }
+ 
